@@ -11,6 +11,7 @@ int main(int argc, char *argv[]) {
     std::cerr << "Error occured. Exiting!" << std::endl;
     return EXIT_FAILURE;
   }
+
   std::vector<int> names;
   for (int i = 1; i < argc; i++) {
     std::cout << argv[i] << std::endl;

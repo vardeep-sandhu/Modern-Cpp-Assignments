@@ -1,3 +1,15 @@
 {
-    "ros.distro": "foxy"
+    "ros.distro": "foxy",
+    "python.autoComplete.extraPaths": [
+        "/opt/ros/foxy/lib/python3.8/site-packages",
+        "",
+        "/home/sandhu/project/object_det/AB3DMOT",
+        "/home/sandhu/project/object_det/AB3DMOT/lib/Xinshuo_PyToolbox"
+    ],
+    "python.analysis.extraPaths": [
+        "/opt/ros/foxy/lib/python3.8/site-packages",
+        "",
+        "/home/sandhu/project/object_det/AB3DMOT",
+        "/home/sandhu/project/object_det/AB3DMOT/lib/Xinshuo_PyToolbox"
+    ]
 }
