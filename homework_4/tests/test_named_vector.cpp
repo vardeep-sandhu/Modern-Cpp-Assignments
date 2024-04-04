@@ -15,10 +15,10 @@ TEMPLATE_TEST_CASE("ipb::named_vector can be initalized as an std::vector",
                    "[named_vector]", char, int, std::string, float, double,
                    (std::tuple<int, float>)) {
   const int kNumElements = 5;
-  const std::string type_name = boost::core::demangle(typeid(TestType).name());
+  const std::string name = boost::core::demangle(typeid(TestType).name());
   const std::string empty_str;
   const std::vector<TestType> std_empty_vector{};
-  const std::vector<TestType> std_vector(kNumElements);
+  const std::vector<TestType> vector(kNumElements);
 
   SECTION("Initialize empty") {
     ipb::named_vector<TestType> templated_vector;
@@ -30,21 +30,21 @@ TEMPLATE_TEST_CASE("ipb::named_vector can be initalized as an std::vector",
   }
 
   SECTION("Initialize with name only") {
-    ipb::named_vector<TestType> templated_vector{type_name, {}};
-    REQUIRE(templated_vector.empty());  // still considered to be empty
+    ipb::named_vector<TestType> templated_vector{name, {}};
+    REQUIRE(templated_vector.empty()); // still considered to be empty
     REQUIRE(!templated_vector.name().empty());
     REQUIRE(templated_vector.vector().empty());
-    REQUIRE(templated_vector.name() == type_name);
+    REQUIRE(templated_vector.name() == name);
     REQUIRE(templated_vector.vector() == std_empty_vector);
   }
 
   SECTION("Full initialization") {
-    ipb::named_vector<TestType> templated_vector{type_name, std_vector};
+    ipb::named_vector<TestType> templated_vector{name, vector};
     REQUIRE(!templated_vector.empty());
     REQUIRE(!templated_vector.name().empty());
     REQUIRE(!templated_vector.vector().empty());
-    REQUIRE(templated_vector.name() == type_name);
-    REQUIRE(templated_vector.vector() == std_vector);
+    REQUIRE(templated_vector.name() == name);
+    REQUIRE(templated_vector.vector() == vector);
   }
 }
 
@@ -53,8 +53,8 @@ TEMPLATE_TEST_CASE("ipb::named_vectors can be sized and resized",
                    (std::tuple<int, float>)) {
   const int kNumElements = 5;
   const std::string name = "resizable_vector";
-  const std::vector<TestType> std_vector(kNumElements);
-  ipb::named_vector<TestType> v{name, std_vector};
+  const std::vector<TestType> vector(kNumElements);
+  ipb::named_vector<TestType> v{name, vector};
 
   REQUIRE(v.size() == kNumElements + name.size());
   REQUIRE(v.capacity() >= kNumElements);
@@ -103,23 +103,23 @@ SCENARIO("ipb::named_vector size is consistent", "[named_vector]") {
   }
   GIVEN("A completely initialized vector") {
     const std::string name{"Nacho"};
-    const std::vector<int> std_vector{1, 2, 3, 4};
-    ipb::named_vector<int> v{name, std_vector};
+    const std::vector<int> vector{1, 2, 3, 4};
+    ipb::named_vector<int> v{name, vector};
     REQUIRE(!v.empty());
-    REQUIRE(v.size() == name.size() + std_vector.size());
+    REQUIRE(v.size() == name.size() + vector.size());
   }
 
   GIVEN("A partially initialized vector") {
     const std::string name{"Nacho"};
-    const std::vector<int> std_vector{1, 2, 3, 4};
+    const std::vector<int> vector{1, 2, 3, 4};
     WHEN("No name is provided") {
       ipb::named_vector<int> v;
-      v = {"", std_vector};
+      v = {"", vector};
       THEN("The named_vector is considered incomplete, therefore, empty") {
         REQUIRE(v.empty());
       }
       THEN("The size() matches the std::vector::size()") {
-        REQUIRE(v.size() == std_vector.size());
+        REQUIRE(v.size() == vector.size());
       }
     }
     WHEN("No vector is provided") {

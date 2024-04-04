@@ -1,0 +1,1 @@
+add_library(bow_dictionary bow_dictionary.cpp)
